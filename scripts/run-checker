@@ -1,0 +1,4 @@
+#!/bin/bash
+
+SACCA_SETTINGS=$(pwd)/sacca.cfg sacca-checker
+

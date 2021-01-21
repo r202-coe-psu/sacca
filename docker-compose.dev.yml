@@ -1,0 +1,51 @@
+version: '3'
+services:
+    mongodb:
+        image: mongo
+        container_name: sacca-mongodb
+        volumes:
+            - ../deployment/sacca/mongodb/data/db:/data/db
+            - /etc/localtime:/etc/localtime:ro
+        # restart: always
+        networks:
+            - default
+    web:
+        build: .
+        image: sacca-image
+        container_name: sacca-web
+        volumes:
+            - .:/app
+            - ../deployment:/deployment
+            - /etc/localtime:/etc/localtime:ro
+        ports:
+            - 8080:9000
+        links:
+            - mongodb
+        networks:
+            - default
+        # restart: always
+        environment:
+            FLASK_ENV: production
+            SACCA_SETTINGS: /app/sacca-development.cfg
+        command: /app/scripts/sacca-uwsgi.sh
+    checker:
+        build: .
+        image: sacca-image
+        container_name: sacca-checker
+        volumes:
+            - .:/app
+            - ../deployment:/deployment
+            - /etc/localtime:/etc/localtime:ro
+        links:
+            - mongodb
+        networks:
+            - default
+        # restart: always
+        environment:
+            SACCA_SETTINGS: /app/sacca-development.cfg
+        command: sacca-checker
+
+networks:
+    default:
+        driver: bridge
+      

@@ -1,0 +1,17 @@
+flask
+requests
+flask-mongoengine
+flask-login
+flask-allows
+authlib
+loginpass
+passlib
+bcrypt
+pygments
+markdown
+python-markdown-math
+email_validator
+wheel
+
+brython
+watchdog
